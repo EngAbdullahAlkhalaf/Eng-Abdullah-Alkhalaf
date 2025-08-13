@@ -4,23 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abdullah Alkhalaf | Senior Network & Systems Manager</title>
-    
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
+    <!-- Chart.js CDN for the skills chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
+    <!-- Google Fonts for Inter and Noto Sans Arabic -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <style>
-        /* --- General Styling --- */
+        /* --- General Styling for Web View --- */
         body {
             font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
             background-color: #FDFBF7;
             color: #2c3e50;
+            margin-top: 0;
         }
 
+        /* Adjusted the section to start at the top without a large min-height */
+        #overview {
+            min-height: auto;
+            padding-top: 5vh;
+            margin-top: -1rem;
+        }
         /* --- Components & Interactions --- */
         .nav-link {
             transition: color 0.3s, border-bottom-color 0.3s;
@@ -86,10 +96,126 @@
             background-color: #EFF6FF;
             color: #2c3e50;
         }
+
+        /* --- PRINT STYLING (UPDATED FOR BOTH LANGUAGES) --- */
+        @media print {
+            body > *:not(#print-document) {
+                display: none !important;
+            }
+
+            #print-document {
+                display: block !important;
+                width: 21cm;
+                min-height: 29.7cm;
+                margin: 0 auto;
+                padding: 1.5cm 2cm;
+                box-shadow: none;
+                /* Updated font-family to support both languages correctly */
+                font-family: 'Noto Sans Arabic', 'Inter', sans-serif;
+                font-size: 8pt;
+                line-height: 1.4;
+                color: #333;
+            }
+
+            .print-main-content-columns {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1cm; /* Reduced gap between columns */
+            }
+
+            .print-header, .print-section.full-span {
+                grid-column: 1 / -1;
+            }
+
+            /* This container now handles both objective and summary, ensuring minimal vertical space */
+             .print-objective-summary-container {
+                grid-column: 1 / -1;
+                display: flex;
+                flex-direction: column;
+                /* REMOVED gap property to rely on h2 margin for spacing */
+             }
+
+            h1, h2, h3, h4 {
+                font-family: 'Noto Sans Arabic', 'Inter', sans-serif;
+                color: #2c3e50;
+                margin-top: 0;
+            }
+            h1 { font-size: 18pt; font-weight: bold; margin-bottom: 0.2rem; }
+            h2 {
+                font-size: 10.5pt;
+                font-weight: bold;
+                border-bottom: 1.5px solid #4A90E2;
+                padding-bottom: 0.1rem;
+                margin-top: 0.5cm; /* UNIFIED: This now controls the space between sections */
+                margin-bottom: 0.3rem;
+                page-break-after: avoid;
+            }
+            h3 { font-size: 9.5pt; font-weight: bold; margin-bottom: 0.1rem; }
+            
+            /* This rule removes the top margin from the very first h2 (Career Objective) */
+            h2:first-of-type {
+                 margin-top: 0;
+            }
+
+            .print-header {
+                text-align: center;
+                margin-bottom: 0.5cm;
+                padding-bottom: 0.5cm;
+                border-bottom: 1px solid #ccc;
+            }
+            .print-photo {
+                width: 75px;
+                height: 75px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-bottom: 0.5rem;
+                display: inline-block;
+            }
+            .print-contact {
+                display: flex;
+                justify-content: center;
+                gap: 1rem;
+                margin-top: 0.2rem;
+                font-size: 8pt;
+                flex-wrap: wrap;
+            }
+
+            .print-section {
+                break-inside: avoid;
+                margin-bottom: 0; /* REMOVED: To prevent extra space */
+            }
+            .print-section p {
+                margin-top: 0;
+                margin-bottom: 0.2rem;
+            }
+            .print-section ul, .print-section p {
+                margin-left: 0.8rem;
+                margin-top: 0;
+                margin-bottom: 0.2rem;
+            }
+            .print-section ul li {
+                 margin-bottom: 0.1rem;
+            }
+            .print-experience-item {
+                margin-bottom: 0.5rem;
+            }
+            .print-experience-item p {
+                font-size: 8pt;
+                color: #666;
+                margin-bottom: 0.1rem;
+            }
+            .print-experience-item h3 {
+                margin-top: 0;
+            }
+            .print-experience-item ul {
+                margin-top: 0.25rem;
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
 
+    <!-- Language Selection Modal -->
     <div id="language-modal" class="font-sans">
         <div id="language-modal-content" class="bg-white p-10 rounded-2xl shadow-2xl text-center max-w-sm md:max-w-md mx-auto">
             <img src="https://i.imgur.com/w9oOD9l.jpeg" alt="Abdullah Alkhalaf's Photo" class="rounded-xl mx-auto mb-4 w-48 h-48 object-cover">
@@ -103,8 +229,10 @@
         </div>
     </div>
 
+    <!-- Main Website Content -->
     <div id="resume-content" class="hidden">
-        <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <!-- Header -->
+        <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm hidden-on-print">
             <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
                 <a href="#overview"><img src="https://i.imgur.com/w9oOD9l.jpeg" alt="Abdullah Alkhalaf's Photo" class="w-16 h-16 rounded-xl object-cover"></a>
                 <div class="hidden md:flex items-center space-x-6">
@@ -112,27 +240,29 @@
                     <a href="#experience" class="nav-link font-semibold" data-key="nav-experience">Experience</a>
                     <a href="#skills-projects" class="nav-link font-semibold" data-key="nav-skills">Skills & Projects</a>
                     <a href="#contact" class="nav-link font-semibold" data-key="nav-contact">Contact</a>
+                    <button id="print-button" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold transition-colors duration-200 hover:bg-gray-300" data-key="print-button">Print</button>
                 </div>
-                <div class="md:hidden">
+                <div class="md:hidden flex items-center space-x-4">
                     <button id="mobile-menu-button" class="text-gray-800 focus:outline-none">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                     </button>
                 </div>
             </nav>
-            <div id="mobile-menu" class="hidden md:hidden">
+            <div id="mobile-menu" class="hidden md:hidden hidden-on-print">
                 <a href="#overview" class="block py-2 px-6 text-sm hover:bg-gray-200" data-key="nav-overview">Overview</a>
                 <a href="#experience" class="block py-2 px-6 text-sm hover:bg-gray-200" data-key="nav-experience">Experience</a>
                 <a href="#skills-projects" class="block py-2 px-6 text-sm hover:bg-gray-200" data-key="nav-skills">Skills & Projects</a>
                 <a href="#contact" class="block py-2 px-6 text-sm hover:bg-gray-200" data-key="nav-contact">Contact</a>
+                <button id="print-button-mobile" class="w-full text-left py-2 px-6 text-sm hover:bg-gray-200" data-key="print-button">Print</button>
             </div>
         </header>
 
-        <main class="container mx-auto px-6 py-12">
-            
-            <section id="overview" class="min-h-[80vh] flex flex-col justify-center items-center text-center">
+        <!-- Main Content (Website view) -->
+        <main class="container mx-auto px-6 py-4">
+            <section id="overview" class="flex flex-col justify-center items-center text-center">
                 <h1 class="text-4xl md:text-6xl font-bold leading-tight" data-key="name">Abdullah Alkhalaf</h1>
                 <p class="mt-4 text-xl md:text-2xl text-gray-600" data-key="title">Senior Network & Systems Manager | Aspiring IT Director</p>
-                <div class="mt-12 max-w-4xl mx-auto text-center space-y-8">
+                <div class="mt-8 max-w-4xl mx-auto text-center space-y-6">
                     <div>
                         <h3 class="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-blue-200 pb-2" data-key="objective-title">Career Objective</h3>
                         <p class="text-gray-700 leading-relaxed" data-key="objective-text">Strategic-minded IT professional with over 10 years of experience in managing and leading enterprise network and systems operations. Aspiring to advance into a senior IT leadership role to leverage technical expertise, strategic vision, and leadership skills in delivering innovative solutions, driving digital transformation, and achieving impactful business results.</p>
@@ -143,10 +273,9 @@
                     </div>
                 </div>
             </section>
-            
-            <section id="experience" class="py-20">
-                <h2 class="text-4xl font-bold text-center mb-12" data-key="experience-title">Professional Experience</h2>
-                <div class="flex justify-center mb-8">
+            <section id="experience" class="py-12">
+                <h2 class="text-4xl font-bold text-center mb-8" data-key="experience-title">Professional Experience</h2>
+                <div class="tab-button-container flex justify-center mb-6 hidden-on-print">
                     <div class="flex space-x-2 bg-gray-200 p-1 rounded-full">
                         <button data-tab="saudi-medevac" class="tab-button px-6 py-2 rounded-full text-sm font-semibold active" data-key="company-1">Air Medical Evacuation Directorate</button>
                         <button data-tab="military-survey" class="tab-button px-6 py-2 rounded-full text-sm font-semibold" data-key="company-2">General Directorate of Military Survey</button>
@@ -156,7 +285,7 @@
                     <div id="saudi-medevac" class="tab-content">
                         <div class="bg-white p-8 rounded-lg shadow-lg">
                             <h3 class="text-2xl font-bold" data-key="job-title-1">Network & Systems Department Manager</h3>
-                            <p class="text-gray-500 font-medium my-2" data-key="job-period-1">Air Medical Evacuation Directorate – Riyadh, Saudi Arabia (2022 – Present)</p>
+                            <p class="text-gray-500 font-medium my-2" data-key="job-period-1">Air Medical Evacuation Directorate (2022 – Present)</p>
                             <ul class="list-disc list-inside mt-4 space-y-3 text-gray-700">
                                 <li data-key="duty-1-1">Led the Digital Transformation Project, including planning and implementing ERP and MRO systems with international partners.</li>
                                 <li data-key="duty-1-2">Developed and updated existing systems, installed internal email systems, and implemented device protection and backup solutions.</li>
@@ -171,7 +300,7 @@
                     <div id="military-survey" class="tab-content hidden">
                         <div class="bg-white p-8 rounded-lg shadow-lg">
                             <h3 class="text-2xl font-bold" data-key="job-title-2">Network Department Manager</h3>
-                            <p class="text-gray-500 font-medium my-2" data-key="job-period-2">General Directorate of Military Survey – Riyadh, Saudi Arabia (2015 – 2022)</p>
+                            <p class="text-gray-500 font-medium my-2" data-key="job-period-2">General Directorate of Military Survey (2015 – 2022)</p>
                             <ul class="list-disc list-inside mt-4 space-y-3 text-gray-700">
                                 <li data-key="duty-2-1">Modernized network and data center infrastructure.</li>
                                 <li data-key="duty-2-2">Installed an advanced CCTV system.</li>
@@ -182,14 +311,13 @@
                     </div>
                 </div>
             </section>
-            
-            <section id="skills-projects" class="py-20 bg-gray-50 rounded-xl">
-                 <h2 class="text-4xl font-bold text-center mb-16" data-key="skills-projects-title">Skills & Key Projects</h2>
-                 <div class="grid md:grid-cols-2 gap-16 items-center">
+            <section id="skills-projects" class="py-12 bg-gray-50 rounded-xl">
+                 <h2 class="text-4xl font-bold text-center mb-12" data-key="skills-projects-title">Skills & Key Projects</h2>
+                 <div class="grid md:grid-cols-2 gap-12 items-center">
                      <div class="text-center">
                         <h3 class="text-2xl font-bold mb-4" data-key="competencies-title">Core Competencies</h3>
-                        <p class="text-gray-600 mb-6 max-w-md mx-auto" data-key="competencies-desc">A visual representation of key skill areas, demonstrating a well-rounded expertise in technical, strategic, and managerial domains.</p>
-                        <div class="chart-container">
+                        <p class="text-gray-600 mb-6 max-w-md mx-auto hidden-on-print" data-key="competencies-desc">A visual representation of key skill areas, demonstrating a well-rounded expertise in technical, strategic, and managerial domains.</p>
+                        <div class="chart-container hidden-on-print">
                            <canvas id="skillsChart"></canvas>
                         </div>
                      </div>
@@ -208,10 +336,10 @@
                         </div>
                      </div>
                  </div>
-                 <div class="mt-20">
+                 <div class="mt-16">
                     <h3 class="text-3xl font-bold text-center mb-4" data-key="projects-title">Key Projects & Achievements</h3>
-                    <p class="text-gray-600 text-center mb-8 max-w-2xl mx-auto" data-key="projects-desc">A portfolio of significant accomplishments. Use the filters to explore projects based on their primary focus area.</p>
-                    <div class="flex justify-center flex-wrap gap-3 mb-8">
+                    <p class="text-gray-600 text-center mb-8 max-w-2xl mx-auto hidden-on-print" data-key="projects-desc">A portfolio of significant accomplishments. Use the filters to explore projects based on their primary focus area.</p>
+                    <div class="filter-button-container flex justify-center flex-wrap gap-3 mb-8 hidden-on-print">
                         <button class="filter-btn active px-4 py-2 bg-white border border-gray-300 rounded-full text-sm font-semibold" data-filter="all" data-key="filter-all">All</button>
                         <button class="filter-btn px-4 py-2 bg-white border border-gray-300 rounded-full text-sm font-semibold" data-filter="transformation" data-key="filter-transformation">Digital Transformation</button>
                         <button class="filter-btn px-4 py-2 bg-white border border-gray-300 rounded-full text-sm font-semibold" data-filter="infrastructure" data-key="filter-infrastructure">Infrastructure</button>
@@ -262,9 +390,8 @@
                     </div>
                 </div>
             </section>
-            
-            <section id="education" class="py-20">
-                <h2 class="text-4xl font-bold text-center mb-12" data-key="education-certs-title">Education & Certifications</h2>
+            <section id="education" class="py-12">
+                <h2 class="text-4xl font-bold text-center mb-8" data-key="education-certs-title">Education & Certifications</h2>
                 <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
                     <div>
                         <h3 class="text-2xl font-bold mb-4" data-key="education-title">Education</h3>
@@ -299,17 +426,138 @@
 
         </main>
 
+        <!-- Footer -->
         <footer id="contact" class="bg-gray-800 text-white">
             <div class="container mx-auto px-6 py-10 text-center">
                 <h2 class="text-3xl font-bold mb-4" data-key="contact-title">Get In Touch</h2>
                 <p class="text-gray-400 mb-6" data-key="contact-desc">Open to new opportunities and collaborations.</p>
                 <div class="flex justify-center items-center flex-wrap gap-x-8 gap-y-4 text-lg">
                     <span data-key="contact-location">📍 Riyadh, Saudi Arabia</span>
-                    <span data-key="contact-phone">📞 0558335544</span>
+                    <span class="hidden" data-key="contact-phone">📞 0558335544</span>
                     <span data-key="contact-email">✉️ eng.abdullah.alkhalaf@gmail.com</span>
                 </div>
             </div>
         </footer>
+    </div>
+
+
+    <!-- Dedicated Print Document (Updated for two columns) -->
+    <div id="print-document" class="hidden">
+        <div class="print-header full-span">
+            <!-- Used the same image link as the web version -->
+            <img src="https://i.imgur.com/w9oOD9l.jpeg" alt="صورة شخصية" class="print-photo">
+            <h1 data-key="name">Abdullah Alkhalaf</h1>
+            <p data-key="title">Senior Network & Systems Manager | Aspiring IT Director</p>
+            <div class="print-contact">
+                <span data-key="contact-location">📍 Riyadh, Saudi Arabia</span>
+                <span data-key="contact-phone">📞 0558335544</span>
+                <span data-key="contact-email">✉️ eng.abdullah.alkhalaf@gmail.com</span>
+            </div>
+        </div>
+
+        <!-- Main content is now a two-column grid -->
+        <div class="print-main-content-columns">
+             <!-- Combined Objective and Summary sections into a single container to reduce space -->
+             <div class="print-objective-summary-container">
+                 <div class="print-section">
+                    <h2 data-key="objective-title">Career Objective</h2>
+                    <p data-key="objective-text">Strategic-minded IT professional with over 10 years of experience in managing and leading enterprise network and systems operations. Aspiring to advance into a senior IT leadership role to leverage technical expertise, strategic vision, and leadership skills in delivering innovative solutions, driving digital transformation, and achieving impactful business results.</p>
+                 </div>
+                 <div class="print-section">
+                    <h2 data-key="summary-title">Professional Summary</h2>
+                    <p data-key="summary-text">Results-driven Senior Manager in Network and Systems Management, recognized for successfully leading high-impact technology initiatives that enhance operational efficiency, security, and performance. Brings extensive experience in directing cross-functional projects, optimizing IT infrastructure, and aligning technology strategies with organizational goals. Known for consistently delivering forward-thinking solutions—often beyond defined responsibilities—that drive measurable value and operational excellence across the enterprise.</p>
+                </div>
+             </div>
+
+
+            <!-- Left column content -->
+            <div>
+                 <div class="print-section">
+                    <h2 data-key="experience-title">Professional Experience</h2>
+                    <div class="print-experience-item">
+                        <h3 data-key="job-title-1">Network & Systems Department Manager</h3>
+                        <p class="text-gray-500 font-medium" data-key="job-period-1">Air Medical Evacuation Directorate (2022 – Present)</p>
+                        <ul class="list-disc list-inside">
+                            <li data-key="duty-1-1">Led the Digital Transformation Project, including planning and implementing ERP and MRO systems with international partners.</li>
+                            <li data-key="duty-1-2">Developed and updated existing systems, installed internal email systems, and implemented device protection and backup solutions.</li>
+                            <li data-key="duty-1-3">Supervised the planning and execution of a new data center.</li>
+                            <li data-key="duty-1-4">Oversaw the installation and update of new servers and the migration from Hyper-V to VMware.</li>
+                            <li data-key="duty-1-5">Strengthened cybersecurity using firewalls, VPNs, and modern controls.</li>
+                            <li data-key="duty-1-6">Managed and upgraded enterprise databases.</li>
+                            <li data-key="duty-1-7">Created digital platforms to serve and facilitate department work, suchs as the internal portal (electronic services, news), a technical support system, and a safety reporting system.</li>
+                        </ul>
+                    </div>
+                    <div class="print-experience-item">
+                        <h3 data-key="job-title-2">Network Department Manager</h3>
+                        <p class="text-gray-500 font-medium" data-key="job-period-2">General Directorate of Military Survey (2015 – 2022)</p>
+                        <ul class="list-disc list-inside">
+                            <li data-key="duty-2-1">Modernized network and data center infrastructure.</li>
+                            <li data-key="duty-2-2">Installed an advanced CCTV system.</li>
+                            <li data-key="duty-2-3">Supervised the new land surveying maps system project.</li>
+                            <li data-key="duty-2-4">Implemented multiple projects for the directorate's branches in various regions.</li>
+                        </ul>
+                    </div>
+                 </div>
+                 <div class="print-section">
+                    <h2 data-key="education-title">Education</h2>
+                    <div class="print-experience-item">
+                        <h3 class="font-bold" data-key="degree">Bachelor of Computer Engineering</h3>
+                        <p data-key="university">Qassim University</p>
+                        <p data-key="degree-info">2015 | Grade: Very Good</p>
+                    </div>
+                 </div>
+            </div>
+
+            <!-- Right column content -->
+            <div>
+                 <div class="print-section">
+                    <h2 data-key="technical-skills-title">Technical Skills</h2>
+                    <ul class="list-disc list-inside">
+                        <li data-key="skill-1">Strategic Planning & IT Leadership</li>
+                        <li data-key="skill-2">Network & Systems Infrastructure</li>
+                        <li data-key="skill-3">Database Administration</li>
+                        <li data-key="skill-4">Virtualization (VMware, Hyper-V)</li>
+                        <li data-key="skill-5">Cybersecurity & Data Protection</li>
+                        <li data-key="skill-6">Data Center Design</li>
+                        <li data-key="skill-7">Project & Budget Management</li>
+                        <li data-key="skill-8">KPIs & Performance Optimization</li>
+                        <li data-key="skill-9">Change Management</li>
+                    </ul>
+                </div>
+                 <div class="print-section">
+                    <h2 data-key="projects-title">Key Projects & Achievements</h2>
+                    <ul class="list-disc list-inside">
+                        <li data-key="project-title-1">Digital Transformation: <span class="font-normal" data-key="project-desc-1">Led ERP & MRO system implementation, modernizing core processes.</span></li>
+                        <li data-key="project-title-2">Internal Digital Platforms: <span class="font-normal" data-key="project-desc-2">Developed in-house platforms for electronic services, news, and enhanced communication.</span></li>
+                        <li data-key="project-title-3">New Data Center Planning & Execution: <span class="font-normal" data-key="project-desc-3">Designed and deployed a modern, secure, and scalable high-availability data center.</span></li>
+                        <li data-key="project-title-4">Cybersecurity Enhancement: <span class="font-normal" data-key="project-desc-4">Strengthened network security with advanced firewalls, VPNs, and access controls.</span></li>
+                        <li data-key="project-title-5">IT Support & Safety Systems: <span class="font-normal" data-key="project-desc-5">Created an internal technical support system and a digital safety incident reporting platform.</span></li>
+                        <li data-key="project-title-6">Virtualization Migration: <span class="font-normal" data-key="project-desc-6">Migrated servers from Hyper-V to VMware.</span></li>
+                        <li data-key="project-title-7">Network & Data Center Modernization: <span class="font-normal" data-key="project-desc-7">Improved full network and data center setup.</span></li>
+                        <li data-key="project-title-8">Advanced CCTV System Implementation: <span class="font-normal" data-key="project-desc-8">Installed a full security camera system.</span></li>
+                        <li data-key="project-title-9">Land Surveying Maps System: <span class="font-normal" data-key="project-desc-9">Led the digital land survey mapping system.</span></li>
+                    </ul>
+                 </div>
+                 <div class="print-section">
+                     <h2 data-key="certs-title">Certifications & Training</h2>
+                     <ul class="list-disc list-inside">
+                         <li data-key="cert-1">Project Management Professional (PMP) & Risk Management</li>
+                         <li data-key="cert-2">CCNA & CCNP – Switching & Routing</li>
+                         <li data-key="cert-3">Strategic Planning & Performance Governance (Balanced Scorecard)</li>
+                         <li data-key="cert-4">Effective Communication, Quality Management & Efficiency</li>
+                         <li data-key="cert-5">Fundamentals of Cybersecurity</li>
+                         <li data-key="cert-6">The Role of Organizational Culture in Building Effective Organizations</li>
+                         <li data-key="cert-7">Leadership Qualification Program</li>
+                         <li data-key="cert-8">Organizational Agility & Change Management</li>
+                         <li data-key="cert-9">Building Key Performance Indicators (KPIs)</li>
+                         <li data-key="cert-10">Strategic Thinking, Leadership & Empowerment</li>
+                         <li data-key="cert-11">Monitoring & Evaluation</li>
+                         <li data-key="cert-12">Expenditure Efficiency Standards & Practices</li>
+                         <li data-key="cert-13">Principles of Quality Management Systems & Institutional Excellence</li>
+                     </ul>
+                 </div>
+            </div>
+        </div>
     </div>
 
 
@@ -325,6 +573,7 @@
                 'nav-experience': 'Experience',
                 'nav-skills': 'Skills & Projects',
                 'nav-contact': 'Contact',
+                'print-button': 'Print',
                 'objective-title': 'Career Objective',
                 'objective-text': 'Strategic-minded IT professional with over 10 years of experience in managing and leading enterprise network and systems operations. Aspiring to advance into a senior IT leadership role to leverage technical expertise, strategic vision, and leadership skills in delivering innovative solutions, driving digital transformation, and achieving impactful business results.',
                 'summary-title': 'Professional Summary',
@@ -333,7 +582,7 @@
                 'company-1': 'Air Medical Evacuation Directorate',
                 'company-2': 'General Directorate of Military Survey',
                 'job-title-1': 'Network & Systems Department Manager',
-                'job-period-1': 'Air Medical Evacuation Directorate – Riyadh, Saudi Arabia (2022 – Present)',
+                'job-period-1': 'Air Medical Evacuation Directorate (2022 – Present)',
                 'duty-1-1': 'Led the Digital Transformation Project, including planning and implementing ERP and MRO systems with international partners.',
                 'duty-1-2': 'Developed and updated existing systems, installed internal email systems, and implemented device protection and backup solutions.',
                 'duty-1-3': 'Supervised the planning and execution of a new data center.',
@@ -342,7 +591,7 @@
                 'duty-1-6': 'Managed and upgraded enterprise databases.',
                 'duty-1-7': 'Created digital platforms to serve and facilitate department work, suchs as the internal portal (electronic services, news), a technical support system, and a safety reporting system.',
                 'job-title-2': 'Network Department Manager',
-                'job-period-2': 'General Directorate of Military Survey – Riyadh, Saudi Arabia (2015 – 2022)',
+                'job-period-2': 'General Directorate of Military Survey (2015 – 2022)',
                 'duty-2-1': 'Modernized network and data center infrastructure.',
                 'duty-2-2': 'Installed an advanced CCTV system.',
                 'duty-2-3': 'Supervised the new land surveying maps system project.',
@@ -423,6 +672,7 @@
                 'nav-experience': 'الخبرة',
                 'nav-skills': 'المهارات والمشاريع',
                 'nav-contact': 'اتصل بي',
+                'print-button': 'طباعة',
                 'objective-title': 'الهدف المهني',
                 'objective-text': 'متخصص في تقنية المعلومات بخبرة تزيد عن 10 سنوات في إدارة وتشغيل الشبكات والأنظمة داخل المؤسسات. يطمح للوصول إلى منصب قيادي في مجال التقنية، ويستخدم خبرته الفنية ورؤيته وخبرته في القيادة لتقديم حلول مبتكرة، ودعم التحول الرقمي، وتحقيق نتائج فعالة.',
                 'summary-title': 'الملخص المهني',
@@ -431,16 +681,16 @@
                 'company-1': 'إدارة الإخلاء الطبي الجوي',
                 'company-2': 'إدارة المساحة العسكرية',
                 'job-title-1': 'مدير قسم الشبكات والأنظمة',
-                'job-period-1': 'إدارة الإخلاء الطبي الجوي – الرياض، المملكة العربية السعودية (2022 - حتى الآن)',
-                'duty-1-1': 'قاد مشروع التحول الرقمي باستخدام أنظمة ERP وMRO.',
-                'duty-1-2': 'طوّر الأنظمة الحالية، وركّب بريد إلكتروني داخلي، وأضاف حماية ونسخ احتياطي للأجهزة.',
-                'duty-1-3': 'أدار تخطيط وتنفيذ مركز بيانات جديد.',
-                'duty-1-4': 'أشرف على ترقية الخوادم والترحيل من Hyper-V إلى VMware.',
-                'duty-1-5': 'عزّز الأمن السيبراني باستخدام جدران حماية وVPN وضوابط وصول.',
-                'duty-1-6': 'أدار قواعد البيانات وطوّرها.',
-                'duty-1-7': 'أنشأ منصات داخلية مثل بوابة إلكترونية، ونظام دعم، ونظام تقارير السلامة.',
+                'job-period-1': 'إدارة الإخلاء الطبي الجوي (2022 - حتى الآن)',
+                'duty-1-1': 'قاد مشروع التحول الرقمي، وشمل تخطيط وتنفيذ أنظمة ERP و MRO مع شركاء دوليين.',
+                'duty-1-2': 'طوّر وحدث الأنظمة الحالية، وركّب أنظمة بريد إلكتروني داخلية، ونفّذ حلول حماية الأجهزة والنسخ الاحتياطي.',
+                'duty-1-3': 'أشرف على تخطيط وتنفيذ مركز بيانات جديد.',
+                'duty-1-4': 'أدار عملية تركيب وتحديث الخوادم الجديدة والترحيل من Hyper-V إلى VMware.',
+                'duty-1-5': 'عزّز الأمن السيبراني باستخدام جدران الحماية، والشبكات الخاصة الافتراضية (VPN)، وضوابط حديثة.',
+                'duty-1-6': 'أدار وطوّر قواعد البيانات الخاصة بالمؤسسة.',
+                'duty-1-7': 'أنشأ منصات رقمية لخدمة وتسهيل عمل القسم، مثل البوابة الداخلية (للخدمات الإلكترونية والأخبار)، ونظام للدعم الفني، ونظام لتقارير السلامة.',
                 'job-title-2': 'مدير قسم الشبكات',
-                'job-period-2': 'إدارة المساحة العسكرية – الرياض، المملكة العربية السعودية (2015 – 2022)',
+                'job-period-2': 'إدارة المساحة العسكرية (2015 – 2022)',
                 'duty-2-1': 'حدث البنية التحتية للشبكات ومركز البيانات.',
                 'duty-2-2': 'ركّب نظام كاميرات مراقبة متطور.',
                 'duty-2-3': 'أشرف على مشروع نظام الخرائط المساحية الجديد.',
@@ -466,15 +716,15 @@
                 'filter-security': 'الأمن',
                 'filter-systems': 'الأنظمة الداخلية',
                 'project-title-1': 'التحول الرقمي',
-                'project-desc-1': 'قاد مشروع إعداد أنظمة ERP و MRO لتحديث العمليات.',
+                'project-desc-1': 'قاد مشروع إعداد أنظمة ERP و MRO، لتحديث العمليات الأساسية.',
                 'project-title-2': 'المنصات الرقمية الداخلية',
-                'project-desc-2': 'أنشأ منصات للخدمات والأخبار والتواصل.',
+                'project-desc-2': 'أنشأ منصات داخلية للخدمات الإلكترونية والأخبار وتعزيز التواصل.',
                 'project-title-3': 'تخطيط وتنفيذ مركز بيانات جديد',
-                'project-desc-3': 'خطط وأطلق مركز بيانات آمن وقابل للتطوير.',
+                'project-desc-3': 'خطط وأطلق مركز بيانات حديث وآمن وقابل للتطوير.',
                 'project-title-4': 'تعزيز الأمن السيبراني',
-                'project-desc-4': 'عزز حماية الشبكة بجدران الحماية والشبكات الخاصة الافتراضية (VPNs).',
+                'project-desc-4': 'عزز حماية الشبكة بجدران الحماية المتقدمة والشبكات الخاصة الافتراضية (VPN).',
                 'project-title-5': 'أنظمة الدعم الفني والسلامة',
-                'project-desc-5': 'صنع أنظمة داخلية للدعم الفني وتقارير السلامة.',
+                'project-desc-5': 'صنع أنظمة داخلية للدعم الفني ومنصة رقمية لتقارير الحوادث.',
                 'project-title-6': 'ترحيل الأنظمة الافتراضية',
                 'project-desc-6': 'رحّل الخوادم من Hyper-V إلى VMware.',
                 'project-title-7': 'تحديث الشبكات ومركز البيانات',
@@ -491,10 +741,10 @@
                 'certs-title': 'الشهادات والتدريب',
                 'cert-1': 'محترف إدارة المشاريع (PMP) وإدارة المخاطر',
                 'cert-2': 'CCNA و CCNP – الشبكات والتوجيه',
-                'cert-3': 'التخطيط الاستراتيجي وحوكمة الأداء (بطاقة الأداء المتوازن)',
-                'cert-4': 'التواصل الفعال وإدارة الجودة والكفاءة',
+                'cert-3': 'التخطيط الاستراتيجي وحوكمة الأداء (Balanced Scorecard)',
+                'cert-4': 'التواصل الفعال، وإدارة الجودة والكفاءة',
                 'cert-5': 'أساسيات الأمن السيبراني',
-                'cert-6': 'دور الثقافة التنظيمية في بناء المنظمات الفعالة',
+                'cert-6': 'دور الثقافة التنظيمية في بناء منظمات فعالة',
                 'cert-7': 'برنامج تأهيل القيادات',
                 'cert-8': 'المرونة التنظيمية وإدارة التغيير',
                 'cert-9': 'بناء مؤشرات الأداء الرئيسية (KPIs)',
@@ -516,21 +766,125 @@
         };
 
         // DOM Elements
+        const languageDataElements = {
+            'modal-text': 'modal-text',
+            'name': 'name',
+            'title': 'title',
+            'nav-overview': 'nav-overview',
+            'nav-experience': 'nav-experience',
+            'nav-skills': 'nav-skills',
+            'nav-contact': 'nav-contact',
+            'print-button': 'print-button',
+            'objective-title': 'objective-title',
+            'objective-text': 'objective-text',
+            'summary-title': 'summary-title',
+            'summary-text': 'summary-text',
+            'experience-title': 'experience-title',
+            'company-1': 'company-1',
+            'company-2': 'company-2',
+            'job-title-1': 'job-title-1',
+            'job-period-1': 'job-period-1',
+            'duty-1-1': 'duty-1-1',
+            'duty-1-2': 'duty-1-2',
+            'duty-1-3': 'duty-1-3',
+            'duty-1-4': 'duty-1-4',
+            'duty-1-5': 'duty-1-5',
+            'duty-1-6': 'duty-1-6',
+            'duty-1-7': 'duty-1-7',
+            'job-title-2': 'job-title-2',
+            'job-period-2': 'job-period-2',
+            'duty-2-1': 'duty-2-1',
+            'duty-2-2': 'duty-2-2',
+            'duty-2-3': 'duty-2-3',
+            'duty-2-4': 'duty-2-4',
+            'skills-projects-title': 'skills-projects-title',
+            'competencies-title': 'competencies-title',
+            'competencies-desc': 'competencies-desc',
+            'technical-skills-title': 'technical-skills-title',
+            'skill-1': 'skill-1',
+            'skill-2': 'skill-2',
+            'skill-3': 'skill-3',
+            'skill-4': 'skill-4',
+            'skill-5': 'skill-5',
+            'skill-6': 'skill-6',
+            'skill-7': 'skill-7',
+            'skill-8': 'skill-8',
+            'skill-9': 'skill-9',
+            'projects-title': 'projects-title',
+            'projects-desc': 'projects-desc',
+            'filter-all': 'filter-all',
+            'filter-transformation': 'filter-transformation',
+            'filter-infrastructure': 'filter-infrastructure',
+            'filter-security': 'filter-security',
+            'filter-systems': 'filter-systems',
+            'project-title-1': 'project-title-1',
+            'project-desc-1': 'project-desc-1',
+            'project-title-2': 'project-title-2',
+            'project-desc-2': 'project-desc-2',
+            'project-title-3': 'project-title-3',
+            'project-desc-3': 'project-desc-3',
+            'project-title-4': 'project-title-4',
+            'project-desc-4': 'project-desc-4',
+            'project-title-5': 'project-title-5',
+            'project-desc-5': 'project-desc-5',
+            'project-title-6': 'project-title-6',
+            'project-desc-6': 'project-desc-6',
+            'project-title-7': 'project-title-7',
+            'project-desc-7': 'project-desc-7',
+            'project-title-8': 'project-title-8',
+            'project-desc-8': 'project-desc-8',
+            'project-title-9': 'project-title-9',
+            'project-desc-9': 'project-desc-9',
+            'education-certs-title': 'education-certs-title',
+            'education-title': 'education-title',
+            'degree': 'degree',
+            'university': 'university',
+            'degree-info': 'degree-info',
+            'certs-title': 'certs-title',
+            'cert-1': 'cert-1',
+            'cert-2': 'cert-2',
+            'cert-3': 'cert-3',
+            'cert-4': 'cert-4',
+            'cert-5': 'cert-5',
+            'cert-6': 'cert-6',
+            'cert-7': 'cert-7',
+            'cert-8': 'cert-8',
+            'cert-9': 'cert-9',
+            'cert-10': 'cert-10',
+            'cert-11': 'cert-11',
+            'cert-12': 'cert-12',
+            'cert-13': 'cert-13',
+            'contact-title': 'contact-title',
+            'contact-desc': 'contact-desc',
+            'contact-location': 'contact-location',
+            'contact-phone': 'contact-phone',
+            'contact-email': 'contact-email',
+            'chart-label-1': 'chart-label-1',
+            'chart-label-2': 'chart-label-2',
+            'chart-label-3': 'chart-label-3',
+            'chart-label-4': 'chart-label-4',
+            'chart-label-5': 'chart-label-5',
+        };
+
         const langModal = document.getElementById('language-modal');
         const resumeContent = document.getElementById('resume-content');
+        const printDocument = document.getElementById('print-document');
         const confirmLangBtn = document.getElementById('confirm-lang-button');
         const langEnBtn = document.getElementById('lang-en');
         const langArBtn = document.getElementById('lang-ar');
+        const printButton = document.getElementById('print-button');
+        const printButtonMobile = document.getElementById('print-button-mobile');
         let selectedLang = null;
         let skillsChartInstance = null;
 
-        
+
         // --- 2. INITIALIZATION ---
         initLanguageSelection();
         initExperienceTabs();
         initProjectFilters();
         initMobileMenu();
         initNavScrollspy();
+        initPrintFunctionality();
 
 
         // --- 3. CORE FUNCTIONS ---
@@ -544,7 +898,7 @@
                 confirmLangBtn.classList.remove('hidden');
                 confirmLangBtn.textContent = lang === 'ar' ? 'تأكيد' : 'Confirm';
             };
-            
+
             langEnBtn.addEventListener('click', () => selectLanguage('en'));
             langArBtn.addEventListener('click', () => selectLanguage('ar'));
 
@@ -553,6 +907,8 @@
                     applyLanguage(selectedLang);
                     langModal.classList.add('hidden');
                     resumeContent.classList.remove('hidden');
+                    // Ensure the print document is also updated
+                    applyLanguageToPrintDocument(selectedLang);
                 }
             });
         }
@@ -565,23 +921,32 @@
             document.documentElement.lang = lang;
             document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
 
-            document.querySelectorAll('[data-key]').forEach(element => {
+            document.querySelectorAll('#resume-content [data-key]').forEach(element => {
                 const key = element.getAttribute('data-key');
                 if (languageData[lang] && languageData[lang][key]) {
                     element.innerHTML = languageData[lang][key];
                 }
             });
-            
-            // --- FIX: The chart needs to be initialized after the DOM has fully rendered
-            // its new layout based on the language, especially for 'rtl'
+
             if (skillsChartInstance) skillsChartInstance.destroy();
-            // Using requestAnimationFrame ensures the browser has completed the layout pass
-            // before we try to draw the chart, which resolves the mobile display issue.
             window.requestAnimationFrame(() => {
                 initSkillsChart(lang);
             });
         }
-        
+
+        /**
+         * Applies the selected language to the dedicated print document.
+         * @param {string} lang - The selected language ('en' or 'ar').
+         */
+         function applyLanguageToPrintDocument(lang) {
+             document.querySelectorAll('#print-document [data-key]').forEach(element => {
+                 const key = element.getAttribute('data-key');
+                 if (languageData[lang] && languageData[lang][key]) {
+                     element.innerHTML = languageData[lang][key];
+                 }
+             });
+         }
+
         /**
          * Initializes the skills chart with translated labels.
          * @param {string} lang - The current language.
@@ -589,12 +954,12 @@
         function initSkillsChart(lang) {
             const ctx = document.getElementById('skillsChart')?.getContext('2d');
             if (!ctx) return;
-            
+
             const isArabic = lang === 'ar';
-            const labels = isArabic ? 
+            const labels = isArabic ?
                 [languageData['ar']['chart-label-1'], languageData['ar']['chart-label-2'], languageData['ar']['chart-label-3'], languageData['ar']['chart-label-4'], languageData['ar']['chart-label-5']] :
                 [languageData['en']['chart-label-1'], languageData['en']['chart-label-2'], languageData['en']['chart-label-3'], languageData['en']['chart-label-4'], languageData['en']['chart-label-5']];
-            
+
             skillsChartInstance = new Chart(ctx, {
                 type: 'radar',
                 data: {
@@ -610,7 +975,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { 
+                    plugins: {
                         legend: { display: false } ,
                         tooltip: {
                             callbacks: {
@@ -650,10 +1015,10 @@
                 if (e.target.closest('.tab-button')) {
                     const button = e.target.closest('.tab-button');
                     const tabId = button.dataset.tab;
-                    
+
                     tabParent.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
-                    
+
                     document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
                     document.getElementById(tabId)?.classList.remove('hidden');
                 }
@@ -691,7 +1056,7 @@
                 mobileMenu.classList.toggle('hidden');
             });
         }
-        
+
         /** Highlights the current navigation link based on scroll position. */
         function initNavScrollspy() {
             const sections = document.querySelectorAll('main section[id]');
@@ -716,7 +1081,52 @@
             });
         }
 
-        // --- NEW: Add a resize event listener to ensure the chart is redrawn when the window size changes.
+        /**
+         * Initializes the print functionality by attaching the custom print handler.
+         * The handler will show the print-specific content and then trigger the print dialog.
+         */
+        function initPrintFunctionality() {
+            const printBtn = document.getElementById('print-button');
+            const printBtnMobile = document.getElementById('print-button-mobile');
+
+            // Attach the handlePrint function to both desktop and mobile buttons
+            if (printBtn) {
+                printBtn.addEventListener('click', handlePrint);
+            }
+            if (printBtnMobile) {
+                printBtnMobile.addEventListener('click', handlePrint);
+            }
+        }
+
+        /**
+         * Handles the custom printing logic.
+         * This function shows the dedicated print document and hides the main resume content.
+         * It then triggers the browser's print dialog.
+         */
+        function handlePrint() {
+            const mainContent = document.getElementById('resume-content');
+            const printContent = document.getElementById('print-document');
+
+            if (mainContent && printContent) {
+                // Hide the main content and show the print content
+                mainContent.classList.add('hidden');
+                printContent.classList.remove('hidden');
+
+                // Use a short delay to ensure the browser has time to apply the CSS changes
+                // before triggering the print dialog. This is a common and reliable pattern.
+                setTimeout(() => {
+                    window.print();
+                    // After the print dialog is closed, reset the visibility
+                    mainContent.classList.remove('hidden');
+                    printContent.classList.add('hidden');
+                }, 100);
+            } else {
+                // Fallback to standard print if the custom elements are not found
+                window.print();
+            }
+        }
+
+        // Add a resize event listener to ensure the chart is redrawn when the window size changes.
         // This is especially useful for mobile devices changing orientation.
         window.addEventListener('resize', () => {
              if (skillsChartInstance) {
